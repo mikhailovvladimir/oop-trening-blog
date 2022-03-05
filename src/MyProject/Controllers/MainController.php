@@ -20,7 +20,7 @@ class MainController
     public function main()
     {
         $articles = $this->db->query('SELECT * FROM `articles`;');
-        debug($articles);
+        $this->view->renderHtml('main/main.php', ['articles' => $articles]);
     }
 
     public function sayHello(string $name)

@@ -11,8 +11,10 @@ class View
         $this->templatePath = $templatePath;
     }
 
-    public function renderHtml(string $templateName, array $vars = [])
+    public function renderHtml(string $templateName, array $vars = [], $code = 200)
     {
+        // задаем код ответа
+        http_response_code($code);
         // извлекает массив в переменные ['ключ' => 'значение']
         // делает $ключ = значение
         extract($vars);

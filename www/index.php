@@ -37,9 +37,3 @@ $actionName = $controllerAndAction[1];
 // то 0 считать не будет
 $controller = new $controllerName();
 $controller->$actionName(...$matches);
-
-function debug($var) {
-    echo '<pre>';
-    print_r($var);
-    echo '</pre>';
-}
