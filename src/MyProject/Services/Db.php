@@ -22,7 +22,7 @@ class Db
     // метод для исполнения запросов
     public function query(string $sql, $params = [], string $className = 'stdClass'): ?array
     {
-        // получаем PDOstatment - готовим запрос
+        // получаем PDOStatment - готовим запрос
         $sth = $this->pdo->prepare($sql);
         // исполняем запрос и получаем результат
         $result = $sth->execute($params);
