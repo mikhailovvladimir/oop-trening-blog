@@ -7,7 +7,9 @@ class Db
     /** @var \PDO */
     private $pdo;
 
-    public function __construct()
+    private static $instance;
+
+    private function __construct()
     {
         $dbOptions = (require __DIR__ . '/../../settings.php')['db'];
 
@@ -33,5 +35,14 @@ class Db
         // если третий аргумент указан, то возвращает объект указанного класса
         // и заполнненными свойствами из бд
         return $sth->fetchAll(\PDO::FETCH_CLASS, $className);
+    }
+
+    public static function getInstance(): self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 }
