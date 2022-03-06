@@ -20,7 +20,7 @@ class Db
     }
 
     // метод для исполнения запросов
-    public function query(string $sql, $params = []): ?array
+    public function query(string $sql, $params = [], string $className = 'stdClass'): ?array
     {
         // получаем PDOstatment - готовим запрос
         $sth = $this->pdo->prepare($sql);
@@ -30,7 +30,8 @@ class Db
         if (false === $result) {
             return null;
         }
-
-        return $sth->fetchAll();
+        // если третий аргумент указан, то возвращает объект указанного класса
+        // и заполнненными свойствами из бд
+        return $sth->fetchAll(\PDO::FETCH_CLASS, $className);
     }
 }
