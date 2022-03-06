@@ -55,6 +55,18 @@ class ArticlesController
         $article->setText('Новый текст статьи');
 
         $article->save();
+    }
+
+    public function delete(int $id): void
+    {
+        $article = Article::getById($id);
+
+        if ($article === null) {
+            $this->view->renderHtml('errors/404.php', [], 404);
+            return;
+        }
+
+        $article->deleteById($id);
         var_dump($article);
     }
 }
