@@ -29,4 +29,19 @@ class ArticlesController
             'article' => $article,
         ]);
     }
+
+    public function edit(int $articleId): void
+    {
+        $article = Article::getById($articleId);
+
+        if ($article === null) {
+            $this->view->renderHtml('errors/404.php', [], 404);
+            return;
+        }
+
+        $article->setName('Новое название статьи1');
+        $article->setText('Новый текст статьи1');
+
+        $article->save();
+    }
 }
