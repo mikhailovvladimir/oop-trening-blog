@@ -42,4 +42,7 @@ try {
 } catch (\MyProject\Exceptions\NotFoundException $e) {
     $view = new \MyProject\View\View(__DIR__ . '/../templates/errors');
     $view->renderHtml('404.php', [], 404);
+} catch (\MyProject\Exceptions\ActivationCodeNotFound $e) {
+    $view = new \MyProject\View\View(__DIR__ . '/../templates/errors');
+    $view->renderHtml('activationCodeNotFound.php', ['error' => $e->getMessage()], 404);
 }

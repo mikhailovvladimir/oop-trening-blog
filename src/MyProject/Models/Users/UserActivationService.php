@@ -37,4 +37,11 @@ class UserActivationService
         );
         return !empty($result);
     }
+
+    public static function deleteCode(int $userId): void
+    {
+        $db = Db::getInstance();
+        $sql = 'DELETE FROM `users_activation_codes` WHERE user_id = :user_id';
+        $db->query($sql, ['user_id' => $userId]);
+    }
 }
