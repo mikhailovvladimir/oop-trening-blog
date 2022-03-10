@@ -2,11 +2,11 @@
 
 namespace MyProject\Controllers;
 
+use MyProject\Exceptions\Forbidden;
+use MyProject\Exceptions\InvalidArgumentException;
+use MyProject\Exceptions\UnauthorizedException;
 use MyProject\Exceptions\NotFoundException;
 use MyProject\Models\Articles\Article;
-use MyProject\Models\Users\User;
-use MyProject\Models\Users\UsersAuthService;
-use MyProject\View\View;
 
 class ArticlesController extends AbstractController
 {
@@ -39,13 +39,27 @@ class ArticlesController extends AbstractController
 
     public function add(): void
     {
-        $author = User::getById(1);
-        $article = new Article();
-        $article->setAuthor($author);
-        $article->setName('Новое название статьи');
-        $article->setText('Новый текст статьи');
+        if (!$this->user->isAdmin()) {
+            throw new Forbidden('У вас нет доступа к этой странице!');
+        }
 
-        $article->save();
+        if ($this->user === null) {
+            throw new UnauthorizedException();
+        }
+
+        if (!empty($_POST)) {
+            try {
+                $article = Article::createFromArray($_POST, $this->user);
+            } catch (InvalidArgumentException $e) {
+                $this->view->renderHtml('articles/add.php', ['error' => $e->getMessage()]);
+                return;
+            }
+
+            header('Location: /articles/' . $article->getId(), true, 302);
+            exit;
+        }
+
+        $this->view->renderHtml('articles/add.php');
     }
 
     public function delete(int $id): void
@@ -57,6 +71,5 @@ class ArticlesController extends AbstractController
         }
 
         $article->deleteById($id);
-        var_dump($article);
     }
 }

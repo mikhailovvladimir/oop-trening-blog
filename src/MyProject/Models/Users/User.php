@@ -124,6 +124,11 @@ class User extends ActiveRecordEntity
         return $user;
     }
 
+    public function getRole()
+    {
+        return $this->role;
+    }
+
     public function getAuthToken(): string
     {
         return $this->authToken;
@@ -139,6 +144,12 @@ class User extends ActiveRecordEntity
     {
         $this->isConfirmed = true;
         $this->save();
+    }
+
+    public function isAdmin(): bool
+    {
+        define('ADMIN', 'admin');
+        return $this->getRole() === ADMIN;
     }
 
     protected static function getTableName(): string
