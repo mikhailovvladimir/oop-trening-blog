@@ -6,9 +6,17 @@ class View
 {
     private $templatePath;
 
+    private $extraVars = [];
+
     public function __construct(string $templatePath)
     {
         $this->templatePath = $templatePath;
+    }
+
+    // помогает задавать переменные прямо в конструкторе до рендеринга шаблона
+    public function setVar(string $name, $value): void
+    {
+        $this->extraVars[$name] = $value;
     }
 
     public function renderHtml(string $templateName, array $vars = [], $code = 200)
@@ -17,6 +25,7 @@ class View
         http_response_code($code);
         // извлекает массив в переменные ['ключ' => 'значение']
         // делает $ключ = значение
+        extract($this->extraVars);
         extract($vars);
 
         // кладем вс в буфер вывода,
