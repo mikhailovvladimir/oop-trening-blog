@@ -19,27 +19,45 @@ class ArticlesController extends AbstractController
         }
 
         $this->view->renderHtml('articles/view.php', [
-            'article' => $article,
+            'article' => $article
         ]);
     }
 
     public function edit(int $articleId): void
     {
+        if (!$this->admin) {
+            throw new Forbidden('У вас нет доступа к этой странице!');
+        }
+
         $article = Article::getById($articleId);
 
         if ($article === null) {
             throw new NotFoundException();
         }
 
-        $article->setName('Новое название статьи1');
-        $article->setText('Новый текст статьи1');
+        if ($this->user === null) {
+            throw new UnauthorizedException();
+        }
 
-        $article->save();
+        if (!empty($_POST)) {
+            try {
+                $article->updateFromArray($_POST);
+            } catch (InvalidArgumentException $e) {
+                $this->view->renderHtml('articles/edit.php', ['error' => $e->getMessage()]);
+                return;
+            }
+
+            header('Location: /articles/' . $article->getId(), true, 302);
+            exit;
+        }
+
+        $this->view->renderHtml('articles/edit.php', ['article' => $article]);
+
     }
 
     public function add(): void
     {
-        if (!$this->user->isAdmin()) {
+        if (!$this->admin) {
             throw new Forbidden('У вас нет доступа к этой странице!');
         }
 

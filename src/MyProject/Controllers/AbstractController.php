@@ -15,10 +15,16 @@ class AbstractController
     /** @var User|null */
     protected $user;
 
+    /** @var User|null */
+    protected $admin;
+
     public function __construct()
     {
         $this->user = UsersAuthService::getUserByToken();
+        $this->admin = isset($this->user) && $this->user->isAdmin();
+
         $this->view = new View(__DIR__ . '/../../../templates');
         $this->view->setVar('user', $this->user);
+        $this->view->setVar('admin', $this->admin);
     }
 }

@@ -148,8 +148,13 @@ class User extends ActiveRecordEntity
 
     public function isAdmin(): bool
     {
-        define('ADMIN', 'admin');
-        return $this->getRole() === ADMIN;
+        $role = 'admin';
+        $token = UsersAuthService::checkToken();
+        if ($this->getRole() === $role and isset($token)) {
+            return true;
+        }
+
+        return false;
     }
 
     protected static function getTableName(): string
