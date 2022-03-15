@@ -28,6 +28,8 @@ class ArticlesController extends AbstractController
             try {
                 $_POST['articleId'] = $articleId;
                 Comment::addNewComment($_POST, $this->user);
+                $allComments = Comment::findRecordsByColumn('article_id', $articleId);
+                $allComments = array_reverse($allComments);
             } catch (InvalidArgumentException $e) {
                 $this->view->renderHtml('articles/view.php', [
                     'article' => $article,
