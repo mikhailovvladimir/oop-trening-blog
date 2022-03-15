@@ -7,6 +7,7 @@ use MyProject\Exceptions\InvalidArgumentException;
 use MyProject\Exceptions\UnauthorizedException;
 use MyProject\Exceptions\NotFoundException;
 use MyProject\Models\Articles\Article;
+use MyProject\Models\Articles\Comment;
 
 class ArticlesController extends AbstractController
 {
@@ -18,8 +19,28 @@ class ArticlesController extends AbstractController
             throw new NotFoundException();
         }
 
+        $allComments = Comment::findRecordsByColumn('article_id', $articleId);
+        if (!empty($allComments)) {
+            $allComments = array_reverse($allComments);
+        }
+
+        if (!empty($_POST)) {
+            try {
+                $_POST['articleId'] = $articleId;
+                Comment::addNewComment($_POST, $this->user);
+            } catch (InvalidArgumentException $e) {
+                $this->view->renderHtml('articles/view.php', [
+                    'article' => $article,
+                    'comments' => $allComments,
+                    'error' => $e->getMessage()
+                ]);
+                exit;
+            }
+        }
+
         $this->view->renderHtml('articles/view.php', [
-            'article' => $article
+            'article' => $article,
+            'comments' => $allComments
         ]);
     }
 

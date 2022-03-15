@@ -35,11 +35,6 @@ class Article extends ActiveRecordEntity
         return $this->text;
     }
 
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
     /**
      * @return int
      */
