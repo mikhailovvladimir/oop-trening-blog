@@ -27,4 +27,12 @@ class AbstractController
         $this->view->setVar('user', $this->user);
         $this->view->setVar('admin', $this->admin);
     }
+
+    public function getInputData()
+    {
+        return json_decode(
+            file_get_contents('php://input'),
+            true
+        );
+    }
 }
