@@ -6,7 +6,6 @@ try {
 
     $routes = require __DIR__ . '/../src/routes.php';
 
-// ищем сопадения по патерну
     $isRouteFound = false;
     foreach ($routes as $pattern => $controllerAndAction) {
         preg_match($pattern, $route, $matches);
@@ -16,22 +15,15 @@ try {
         }
     }
 
-// если роут не найден значит страница не найдена
     if (!$isRouteFound) {
         throw new \MyProject\Exceptions\NotFoundException();
     }
 
-// просто удаляем полное совпадение по патерну
-// так как оно не нужно
     unset($matches[0]);
 
-// получаем контроллер и экшен и вызываем их
     $controllerName = $controllerAndAction[0];
     $actionName = $controllerAndAction[1];
 
-// с помощью ... получаем аргументы в том
-// порядке в котором они идут в массиве, то есть если начинается с одного
-// то 0 считать не будет
     $controller = new $controllerName();
     $controller->$actionName(...$matches);
 } catch (\MyProject\Exceptions\DbException $e) {

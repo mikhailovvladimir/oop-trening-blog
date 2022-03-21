@@ -2,7 +2,6 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// фронт контроллер для конслольных приложений
 try {
     unset($argv[0]);
 

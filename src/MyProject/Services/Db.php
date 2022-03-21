@@ -26,19 +26,15 @@ class Db
         }
     }
 
-    // метод для исполнения запросов
     public function query(string $sql, $params = [], string $className = 'stdClass'): ?array
     {
-        // получаем PDOStatment - готовим запрос
         $sth = $this->pdo->prepare($sql);
-        // исполняем запрос и получаем результат
         $result = $sth->execute($params);
 
         if (false === $result) {
             return null;
         }
-        // если третий аргумент указан, то возвращает объект указанного класса
-        // и заполнненными свойствами из бд
+
         return $sth->fetchAll(\PDO::FETCH_CLASS, $className);
     }
 

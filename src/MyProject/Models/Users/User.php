@@ -134,7 +134,6 @@ class User extends ActiveRecordEntity
         return $this->authToken;
     }
 
-    // обновляем токен при авторизации
     private function refreshAuthToken()
     {
         $this->authToken = sha1(random_bytes(100)) . sha1(random_bytes(100));

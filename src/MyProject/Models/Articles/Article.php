@@ -46,9 +46,7 @@ class Article extends ActiveRecordEntity
      */
     public function getAuthor(): User
     {
-        // lazyload - ленивая загрузка,
-        // это когда данные не загружаются пока их не попросят
-        return User::getById($this->authorId);
+         return User::getById($this->authorId);
     }
 
     public function setAuthor(User $author): void
