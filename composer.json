@@ -1,0 +1,12 @@
+{
+    "name": "mikhailov/myblog.loc",
+    "type": "project",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Vladimir Mikhailov",
+            "email": "1602211@mail.ru"
+        }
+    ],
+    "require": {}
+}
