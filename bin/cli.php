@@ -1,11 +1,10 @@
 <?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
 // фронт контроллер для конслольных приложений
 try {
     unset($argv[0]);
-
-    spl_autoload_register(function (string $className) {
-        require_once __DIR__ . '/../src/' . $className . '.php';
-    });
 
     $className = '\\MyProject\\Cli\\' . array_shift($argv);
 

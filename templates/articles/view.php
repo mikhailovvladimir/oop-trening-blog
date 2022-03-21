@@ -1,6 +1,6 @@
 <?php include __DIR__ . '/../header.php';?>
     <h1><?= $article->getName() ?></h1>
-    <p><?= $article->getText() ?></p>
+    <p><?= $article->getParseText() ?></p>
     <p>Автор: <?= $article->getAuthor()->getNickname(); ?></p>
     <?php if (!empty($user)) : ?>
     <p style="font-size: 15px; color: red; margin: 0;"><?= $error ?? '' ;?></p>

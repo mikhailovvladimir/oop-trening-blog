@@ -35,6 +35,12 @@ class Article extends ActiveRecordEntity
         return $this->text;
     }
 
+    public function getParseText()
+    {
+        $parseDown = new \Parsedown();
+        return $parseDown->text($this->getText());
+    }
+
     /**
      * @return int
      */

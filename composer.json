@@ -8,5 +8,12 @@
             "email": "1602211@mail.ru"
         }
     ],
-    "require": {}
+    "autoload": {
+        "psr-4": {
+            "MyProject\\": "src/MyProject/"
+        }
+    },
+    "require": {
+        "erusev/parsedown": "^1.7"
+    }
 }
