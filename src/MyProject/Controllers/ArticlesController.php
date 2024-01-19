@@ -113,4 +113,34 @@ class ArticlesController extends AbstractController
 
         $article->deleteById($id);
     }
+
+    public function commentForm(int $articleId)
+    {
+        $this->isUserAuth();
+
+        $this->view->renderHtml('articles/comments/view.php', ['articleId' => $articleId]);
+    }
+
+    public function addComment(int $articleId)
+    {
+        try {
+            $this->isUserAuth();
+
+            $article = Article::getById($articleId);
+            if ($article === null) {
+                throw new NotFoundException();
+            }
+
+            $comment = $article->addComment();
+
+            if (!$comment instanceof Comment) {
+                throw new NotFoundException();
+            }
+
+            $this->view->renderHtml('articles/comments/add.php');
+
+        } catch (InvalidArgumentException $e) {
+            $this->view->renderHtml('articles/comments/error.php', ['error' => $e->getMessage()]);
+        }
+    }
 }

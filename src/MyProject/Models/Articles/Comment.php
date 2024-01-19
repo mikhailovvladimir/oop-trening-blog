@@ -46,6 +46,24 @@ class Comment extends ActiveRecordEntity
         return User::getById($this->authorId)->getNickname();
     }
 
+    public static function add(int $authorId, int $articleId): Comment
+    {
+        $commentText = filter_input(INPUT_POST, 'commentText', FILTER_SANITIZE_STRING);
+
+        if (empty($commentText)) {
+            throw new InvalidArgumentException('Некорректно указан текст комментария');
+        }
+
+        $comment = new Comment();
+
+        $comment->authorId = $authorId;
+        $comment->articleId = $articleId;
+        $comment->text = $commentText;
+        $comment->save();
+
+        return $comment;
+    }
+
     protected static function getTableName(): string
     {
         return 'comments';

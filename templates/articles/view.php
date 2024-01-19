@@ -9,6 +9,8 @@
         <textarea name="commentText" style="width: 70%;"></textarea><br>
         <input type="submit" style="width: 30%; padding: 2px;">
     </form>
+
+    <a href="/articles/<?= $article->getId()?>/comments">Оставить комментарий</a>
     <?php else: ?>
         <h3><a href="/users/register">Зарегестрируйтесь и оставляйте комментарии!</a></h3>
     <?php endif ?>

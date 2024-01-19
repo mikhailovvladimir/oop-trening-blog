@@ -103,6 +103,11 @@ class Article extends ActiveRecordEntity
         return $this;
     }
 
+    public function addComment(): Comment
+    {
+        return Comment::add($this->getAuthor()->getId(), $this->getId());
+    }
+
     protected static function getTableName(): string
     {
         return 'articles';

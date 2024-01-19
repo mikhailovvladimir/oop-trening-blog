@@ -96,7 +96,9 @@ abstract class ActiveRecordEntity implements \JsonSerializable
         $db = Db::getInstance();
         $db->query($sql, $params2values, static::class);
         $this->id = $db->getLastInsertId();
-        $this->refresh();
+        if (!empty($this->getId())) {
+            $this->refresh();
+        }
     }
 
     private function mapPropertiesToDbFormat(): array
